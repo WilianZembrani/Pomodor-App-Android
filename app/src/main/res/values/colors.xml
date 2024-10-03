@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="max_white">#f1e3da</color>
-    <color name="max_green">#9ec187</color>
+    <color name="gray">#d9dade</color>
+    <color name="max_white">#eee4d8</color>
+    <color name="max_green">#9dc388</color>
+
 </resources>
