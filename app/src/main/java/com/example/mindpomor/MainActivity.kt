@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         // Inicialize os componentes
         progressBar = findViewById(R.id.progressBar)
-        timerTextView = findViewById(R.id.timerTextView) // Supondo que você tenha uma TextView para mostrar o tempo
+        timerTextView = findViewById(R.id.timerTextView)
 
         // Botões para iniciar e resetar o timer
         val startBtn: ImageButton = findViewById(R.id.playButton)
@@ -44,6 +44,9 @@ class MainActivity : AppCompatActivity() {
         resetBtn.setOnClickListener {
             resetTime()
         }
+
+        // Defina o valor inicial do timer
+        resetTime()
     }
 
     private fun startTimerSetup() {
@@ -83,3 +86,4 @@ class MainActivity : AppCompatActivity() {
         return String.format("%02d:%02d", minutes, seconds)
     }
 }
+

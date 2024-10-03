@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
+    android:background="@drawable/background_gradient"
     tools:context=".MainActivity">
 
 
@@ -17,14 +17,26 @@
         android:importantForAccessibility="no"
         android:scaleType="fitXY"
         android:src="@drawable/config"
-        tools:layout_editor_absoluteX="308dp"
-        tools:layout_editor_absoluteY="159dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="285dp"
+        tools:layout_editor_absoluteY="39dp" />
+
+    <FrameLayout
+        android:id="@+id/circle"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="@drawable/circle_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499"/>
 
     <FrameLayout
         android:id="@+id/flTimer"
-        android:layout_width="244dp"
-        android:layout_height="272dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -39,8 +51,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:indeterminate="false"
-
-            android:progressDrawable="@drawable/gray_progressbar_background"/>
+            android:progressDrawable="@drawable/gray_progressbar_background"
+            android:rotation="270"/>
 
 
 
@@ -51,23 +63,25 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/timerTextView"
-                android:layout_width="322dp"
-                android:layout_height="66dp"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="@color/max_green"
-                android:textSize="40sp"
-                android:textStyle="bold" />
-
-            <TextView
                 android:id="@+id/Pause"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="pause"
-                android:textColor="@color/max_green"
-                android:textSize="11sp" />
+                android:fontFamily="sans-serif"
+                android:text="Pomodoro"
+                android:textColor="@color/max_white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/timerTextView"
+                android:layout_width="322dp"
+                android:layout_height="66dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/max_white"
+                android:textSize="40sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

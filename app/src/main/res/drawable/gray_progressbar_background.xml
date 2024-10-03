@@ -3,7 +3,7 @@
 
     <item android:id="@android:id/background">
         <shape android:shape="ring"
-            android:thickness="20dp"
+            android:thickness="10dp"
             android:useLevel="false">
 
         <solid
@@ -15,7 +15,7 @@
 
     <item android:id="@android:id/progress">
         <shape android:shape="ring"
-            android:thickness="20dp"
+            android:thickness="11dp"
             android:useLevel="true">
 
 
