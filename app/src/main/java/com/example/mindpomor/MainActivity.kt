@@ -6,8 +6,8 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.os.CountDownTimer
@@ -17,11 +17,11 @@ import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
 
-    private var timeSelected: Int = 25 * 60 * 1000 // Exemplo de 25 minutos, ajustável
+    private var timeSelected: Int = 25 * 60 * 1000
     private var timeCountDown: CountDownTimer? = null
     private var timeProgress = 0
     private var pauseOffSet: Long = 0
-    private var isPlaying = false // Alterado para representar o estado do timer
+    private var isPlaying = false
     private lateinit var progressBar: ProgressBar
     private lateinit var timerTextView: TextView
     private lateinit var startBtn: ImageButton
@@ -31,49 +31,34 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        // Criação do canal de notificação
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                "TIMER_CHANNEL",
-                "Timer Notifications",
-                NotificationManager.IMPORTANCE_HIGH
-            ).apply {
-                description = "Canal para notificações do temporizador"
-            }
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Inicialize os componentes
+
         progressBar = findViewById(R.id.progressBar)
         timerTextView = findViewById(R.id.timerTextView)
-        startBtn = findViewById(R.id.playButton) // Mova a inicialização do startBtn aqui
+        startBtn = findViewById(R.id.playButton)
 
-        // Configura o clique para iniciar ou pausar o timer
+
         startBtn.setOnClickListener {
             if (isPlaying) {
-                pauseTimer() // Se estiver tocando, pausa
+                pauseTimer()
             } else {
-                startTimerSetup() // Se não estiver tocando, inicia
+                startTimerSetup()
             }
-            togglePlayPauseButton() // Alterna entre Play e Pause
+            togglePlayPauseButton()
         }
 
-        // Botão para reiniciar o timer
         val resetBtn: ImageButton = findViewById(R.id.restartButton)
         resetBtn.setOnClickListener {
             resetTime()
-            togglePlayPauseButton() // Retorna para Play ao reiniciar
+            togglePlayPauseButton()
         }
 
-        // Defina o valor inicial do timer
+
         resetTime()
     }
 
@@ -93,16 +78,15 @@ class MainActivity : AppCompatActivity() {
                 progressBar.progress = timeProgress
                 isPlaying = false
                 togglePlayPauseButton()
-                showNotification() // Exibe a notificação
-                startRestTimer() // Inicia o temporizador de descanso
+                showCompletionDialog()
             }
         }.start()
         isPlaying = true
     }
 
     private fun pauseTimer() {
-        timeCountDown?.cancel() // Cancela o timer
-        isPlaying = false // Atualiza o estado para não estar mais tocando
+        timeCountDown?.cancel()
+        isPlaying = false
     }
 
     private fun resetTime() {
@@ -125,34 +109,33 @@ class MainActivity : AppCompatActivity() {
 
     private fun togglePlayPauseButton() {
         if (isPlaying) {
-            startBtn.setImageResource(R.drawable.pause_removebg) // Muda para o ícone de Pause
+            startBtn.setImageResource(R.drawable.pause_removebg)
         } else {
-            startBtn.setImageResource(R.drawable.play_removebg) // Muda para o ícone de Play
+            startBtn.setImageResource(R.drawable.play_removebg)
         }
     }
 
-    private fun showNotification() {
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        val notificationBuilder = NotificationCompat.Builder(this, "TIMER_CHANNEL")
-            .setSmallIcon(R.drawable.notificacao) // Use um ícone de notificação apropriado
-            .setContentTitle("Tempo Encerrado!")
-            .setContentText("Seu tempo de trabalho acabou. Hora de descansar por 5 minutos!")
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
-
-        notificationManager.notify(1, notificationBuilder.build())
+    private fun showCompletionDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Tempo Encerrado!")
+        builder.setMessage("Seu tempo de estudos terminou. Deseja iniciar os 5 minutos de descanso?")
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+            startRestTimer()
+        }
+        builder.setCancelable(false)
+        builder.show()
     }
 
     private fun startRestTimer() {
-        timeCountDown?.cancel() // Cancela qualquer timer existente
+        timeCountDown?.cancel()
         timeCountDown = object : CountDownTimer(5 * 60 * 1000, 1000) { // 5 minutos
             override fun onTick(millisUntilFinished: Long) {
-                updateTimerTextView(millisUntilFinished) // Atualiza o TextView
+                updateTimerTextView(millisUntilFinished)
             }
 
             override fun onFinish() {
-                timerTextView.text = "Descanso Terminado!" // Atualiza o TextView quando acabar
             }
         }.start()
     }
